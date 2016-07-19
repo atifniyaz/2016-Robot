@@ -2,6 +2,7 @@ package com.techhounds.subsystems;
 
 import com.techhounds.Robot;
 import com.techhounds.RobotMap;
+import com.techhounds.lib.util.HoundMath;
 import com.techhounds.lib.util.HoundSubsystem;
 
 import edu.wpi.first.wpilibj.Servo;
@@ -47,11 +48,11 @@ public class ServoSubsystem extends HoundSubsystem {
 	}
 
 	public void setPosition(double position) {
-		servo.set(Robot.rangeCheck(position, min, max));
+		servo.set(HoundMath.checkRange(position, min, max));
 	}
 
 	public void set(boolean setMax) {
-		servo.set(Robot.rangeCheck(setMax ? max : min));
+		servo.set(HoundMath.checkRange(setMax ? max : min));
 	}
 
 	public double getPosition() {

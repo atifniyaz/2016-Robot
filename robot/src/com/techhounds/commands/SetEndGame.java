@@ -2,8 +2,8 @@ package com.techhounds.commands;
 
 import com.techhounds.RobotMap.Angler;
 import com.techhounds.commands.angler.SetAnglerPosition;
-import com.techhounds.commands.servos.ReleaseClimber;
-import com.techhounds.commands.servos.SetWinchEnable;
+import com.techhounds.commands.climber.ReleaseClimber;
+import com.techhounds.commands.climber.SetClimberPTO;
 import com.techhounds.subsystems.AnglerSubsystem;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;

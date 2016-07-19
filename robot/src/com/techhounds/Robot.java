@@ -1,14 +1,11 @@
 package com.techhounds;
 
 import com.techhounds.commands.MatchSetup;
-import com.techhounds.commands.Rumble;
 import com.techhounds.commands.SetFlashlight;
 import com.techhounds.commands.UpdateSmartDashboard;
 import com.techhounds.commands.auton.AutonChooser;
 import com.techhounds.commands.auton.RetrieveAuton;
-import com.techhounds.commands.drive_auton.MotionControlLoop;
-import com.techhounds.commands.servos.SetWinchLock;
-import com.techhounds.commands.vision.RotationLoop;
+import com.techhounds.commands.climber.SetClimberLock;
 import com.techhounds.subsystems.AnglerSubsystem;
 import com.techhounds.subsystems.BeamBreakSubsystem;
 import com.techhounds.subsystems.CollectorSubsystem;
@@ -19,6 +16,7 @@ import com.techhounds.subsystems.LEDSubsystem;
 import com.techhounds.subsystems.ServoSubsystem;
 import com.techhounds.subsystems.ShooterSubsystem;
 import com.techhounds.subsystems.VisionSubsystem;
+import com.techhounds.subsystems.controllers.MotionControlLoop;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -39,7 +37,6 @@ public class Robot extends IterativeRobot {
     	initSubsystems();
     	
     	MotionControlLoop.getInstance();
-    	RotationLoop.getInstance();
     	
     	TrajectoryLoader.getInstance();
     	OI.getInstance();
@@ -47,7 +44,7 @@ public class Robot extends IterativeRobot {
     	
     	new UpdateSmartDashboard().start();
     	new MatchSetup().start();
-    	new SetWinchLock(false).start();
+    	new SetClimberLock(false).start();
     	
     	System.out.println("*** TECHHOUNDS IS READY TO ROBOT ***");
     }
@@ -57,7 +54,6 @@ public class Robot extends IterativeRobot {
        	SmartDashboard.putString(GAME_STATE, "disabled");
        	
     	MotionControlLoop.getInstance().stop();
-    	RotationLoop.getInstance().stop();
     	
     	new SetFlashlight(false).start();
     }
@@ -83,7 +79,6 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putString(GAME_STATE, "teleop");
     	
     	new MatchSetup().start();
-    	new Rumble().start();
     	
     	System.out.println("*** TECHHOUNDS IS READY TO TELEOP ***");
     }
@@ -110,16 +105,4 @@ public class Robot extends IterativeRobot {
     	LEDSubsystem.getInstance();
     	FlashlightSubsystem.getInstance();
     }
-    
-    public static double inchToMeter(double inches) {
-    	return inches * 0.0254;
-    }	
-    
-    public static double rangeCheck(double power){
-		return rangeCheck(power, -1, 1);
-	}
-	
-	public static double rangeCheck(double power, double min, double max) {
-		return Math.max(Math.min(power, max), min);
-	}
 }

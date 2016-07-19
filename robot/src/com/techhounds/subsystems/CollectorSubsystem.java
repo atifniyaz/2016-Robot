@@ -2,6 +2,7 @@ package com.techhounds.subsystems;
 
 import com.techhounds.Robot;
 import com.techhounds.RobotMap;
+import com.techhounds.lib.util.HoundMath;
 import com.techhounds.lib.util.HoundSubsystem;
 
 import edu.wpi.first.wpilibj.CANTalon;
@@ -26,7 +27,7 @@ public class CollectorSubsystem extends HoundSubsystem {
 	}
 
 	public void setPower(double power) {
-		motor.set(Robot.rangeCheck(power));
+		motor.set(HoundMath.checkRange(power));
 	}
 
 	public void setToPercentVBus() {

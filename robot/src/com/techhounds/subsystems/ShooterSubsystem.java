@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 
 import com.techhounds.Robot;
 import com.techhounds.RobotMap;
+import com.techhounds.lib.util.HoundMath;
 import com.techhounds.lib.util.HoundSubsystem;
 
 import edu.wpi.first.wpilibj.CANTalon;
@@ -106,7 +107,7 @@ public class ShooterSubsystem extends HoundSubsystem {
 	public void setPower(double power) {
 		controller.disable();
 		shooter.changeControlMode(TalonControlMode.PercentVbus);
-		shooter.set(Robot.rangeCheck(power, -.5, 1));
+		shooter.set(HoundMath.checkRange(power, -.5, 1));
 	}
 
 	public void stopPower() {

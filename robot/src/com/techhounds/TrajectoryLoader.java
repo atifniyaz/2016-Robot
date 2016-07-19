@@ -20,9 +20,6 @@ public class TrajectoryLoader {
 			"LowBarAutoBall-Back",			// 1 Ball - Low Bar Pass Backward
 			"RockWall-Cross",				// Rock Wall Cross
 			"RockWall-Back",				// Rock Wall Back
-		//	"LowBarOneBallAlt-Cross",				// 2 Ball - First Low Bar Pass
-		//	"LowBarTwoBallAlt-Back",			// 2 Ball - Second Low Bar Pass Backwards
-		//	"LowBarTwoBallAlt-Cross",			// 2 Ball - Second Low Bar Pass
 			"PositionFive-Back",
 			"PositionFive-Forward"
 	};

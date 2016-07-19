@@ -3,6 +3,7 @@ package com.techhounds.subsystems;
 import com.techhounds.Robot;
 import com.techhounds.RobotMap;
 import com.techhounds.commands.drive.DriveWithGamepad;
+import com.techhounds.lib.util.HoundMath;
 import com.techhounds.lib.util.HoundSubsystem;
 
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -132,11 +133,11 @@ public class DriveSubsystem extends HoundSubsystem {
 	}
 
 	public void setLeftPower(double power) {
-		left.set(Robot.rangeCheck(power));
+		left.set(HoundMath.checkRange(power));
 	}
 
 	public void setRightPower(double speed) {
-		right.set(Robot.rangeCheck(speed));
+		right.set(HoundMath.checkRange(speed));
 	}
 
 	public void rotateWithPower(double power) {
@@ -150,8 +151,8 @@ public class DriveSubsystem extends HoundSubsystem {
 	}
 
 	public void setPower(double right, double left) {
-		this.left.set(Robot.rangeCheck(left));
-		this.right.set(Robot.rangeCheck(right));
+		this.left.set(HoundMath.checkRange(left));
+		this.right.set(HoundMath.checkRange(right));
 	}
 
 	public double getLeftCurrent() {

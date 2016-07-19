@@ -3,6 +3,7 @@ package com.techhounds.subsystems;
 import com.techhounds.Robot;
 import com.techhounds.RobotMap;
 import com.techhounds.RobotMap.Angler;
+import com.techhounds.lib.util.HoundMath;
 import com.techhounds.lib.util.HoundSubsystem;
 
 import edu.wpi.first.wpilibj.CANTalon;
@@ -50,7 +51,7 @@ public class AnglerSubsystem extends HoundSubsystem {
 
 			@Override
 			public double pidGet() {
-				return Robot.rangeCheck(angler.getAnalogInRaw(), Angler.UP, Angler.DOWN);
+				return HoundMath.checkRange(angler.getAnalogInRaw(), Angler.UP, Angler.DOWN);
 			}
 
 		}, new PIDOutput() {
@@ -68,7 +69,7 @@ public class AnglerSubsystem extends HoundSubsystem {
 	}
 
 	public void setPosition(double position) {
-		pid.setSetpoint(Robot.rangeCheck(position, Angler.UP, Angler.DOWN));
+		pid.setSetpoint(HoundMath.checkRange(position, Angler.UP, Angler.DOWN));
 		pid.enable();
 	}
 
@@ -90,7 +91,7 @@ public class AnglerSubsystem extends HoundSubsystem {
 	}
 
 	public void setPower(double pow) {
-		angler.set(Robot.rangeCheck(pow));
+		angler.set(HoundMath.checkRange(pow));
 	}
 
 	public double getPosition() {

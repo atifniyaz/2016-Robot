@@ -2,6 +2,7 @@ package com.techhounds.commands.drive;
 
 import com.techhounds.Robot;
 import com.techhounds.RobotMap;
+import com.techhounds.lib.util.HoundMath;
 import com.techhounds.subsystems.DriveSubsystem;
 import com.techhounds.subsystems.GyroSubsystem;
 
@@ -186,7 +187,7 @@ public class DriveDistanceStraight extends Command implements PIDSource, PIDOutp
 		
 		lastPower = output;
 	
-		drive.setPower(Robot.rangeCheck(output + offset), Robot.rangeCheck(output - offset));
+		drive.setPower(HoundMath.checkRange(output + offset), HoundMath.checkRange(output - offset));
 
 		// TODO Auto-generated method stub
 

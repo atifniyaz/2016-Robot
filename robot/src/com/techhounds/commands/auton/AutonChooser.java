@@ -1,25 +1,29 @@
 package com.techhounds.commands.auton;
 
+import com.techhounds.AutoMap;
 import com.techhounds.RobotMap;
 import com.techhounds.RobotMap.Angler;
+import com.techhounds.commands.angler.AnglerWithDelay;
 import com.techhounds.commands.angler.SetAnglerPosition;
-import com.techhounds.commands.auton.IRIAutonChooser.Start;
-import com.techhounds.commands.auton_routines.LowBarTwoBallLine;
+import com.techhounds.commands.auton.routine.CrossCDF;
+import com.techhounds.commands.auton.routine.DriveBackAndCheckForBall;
+import com.techhounds.commands.auton.routine.LowBarTwoBallLine;
 import com.techhounds.commands.collector.SetCollectorPower;
 import com.techhounds.commands.collector.WaitForBeanBreak;
 import com.techhounds.commands.drive.DriveDistance;
 import com.techhounds.commands.drive.DriveDistanceStraight;
-import com.techhounds.commands.drive_auton.FinishedControlLoop;
-import com.techhounds.commands.drive_auton.RunControlLoop;
-import com.techhounds.commands.drive_auton.StartControlLoop;
-import com.techhounds.commands.drive_auton.StopControlLoop;
-import com.techhounds.commands.drive_auton.WaitForControlLoop;
-import com.techhounds.commands.drive_auton.WriteControlLoopHeading;
+import com.techhounds.commands.drive_profile.FinishedControlLoop;
+import com.techhounds.commands.drive_profile.RunControlLoop;
+import com.techhounds.commands.drive_profile.StartControlLoop;
+import com.techhounds.commands.drive_profile.StopControlLoop;
+import com.techhounds.commands.drive_profile.WaitForControlLoop;
+import com.techhounds.commands.drive_profile.WriteControlLoopHeading;
 import com.techhounds.commands.gyro.RotateToLastAngle;
 import com.techhounds.commands.gyro.RotateUsingGyro;
 import com.techhounds.commands.gyro.SaveCurrentAngle;
 import com.techhounds.commands.shooter.SetShooterPower;
 import com.techhounds.commands.shooter.SetShooterSpeed;
+import com.techhounds.commands.vision.RotateUsingVisionContinuous;
 import com.techhounds.subsystems.DriveSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -298,15 +302,15 @@ public class AutonChooser {
 				
 				case MOAT:
 					addSequential(new DriveDistanceStraight(
-							factor * RobotMap.Defenses.MOAT_DISTANCE + dist, 
-							factor * RobotMap.Defenses.MOAT_SPEED, 
+							factor * AutoMap.MOAT_DISTANCE + dist, 
+							factor * AutoMap.MOAT_SPEED, 
 							factor * RobotMap.DriveTrain.MIN_STRAIGHT_POWER, 5.0, true));
 					break;
 					
 				case RAMPARTS:
 					addSequential(new DriveDistanceStraight(
-							-RobotMap.Defenses.RAMPARTS_DISTANCE + dist, 
-							-RobotMap.Defenses.RAMPARTS_SPEED, 
+							-AutoMap.RAMPARTS_DISTANCE + dist, 
+							-AutoMap.RAMPARTS_SPEED, 
 							-RobotMap.DriveTrain.MIN_STRAIGHT_POWER, 5.0, true));
 					
 					if(isForward)
@@ -322,15 +326,15 @@ public class AutonChooser {
 						addSequential(new RunControlLoop("RockWall-Back"));
 					}*/
 					addSequential(new DriveDistanceStraight(
-							factor * RobotMap.Defenses.ROCK_WALL_DISTANCE + dist, 
-							isTwoBall ? factor * RobotMap.Defenses.ROCK_WALL_SPEED : factor * 0.6 , 
+							factor * AutoMap.ROCK_WALL_DISTANCE + dist, 
+							isTwoBall ? factor * AutoMap.ROCK_WALL_SPEED : factor * 0.6 , 
 							factor * RobotMap.DriveTrain.MIN_STRAIGHT_POWER, 5.0, true));
 					break;
 					
 				case ROUGH_TERRAIN:
 					addSequential(new DriveDistanceStraight(
-							factor * RobotMap.Defenses.ROUGH_TERRAIN_DISTANCE + dist, 
-							isTwoBall ? power * RobotMap.Defenses.ROUGH_TERRAIN_SPEED : factor * 0.75, 
+							factor * AutoMap.ROUGH_TERRAIN_DISTANCE + dist, 
+							isTwoBall ? power * AutoMap.ROUGH_TERRAIN_SPEED : factor * 0.75, 
 							factor * RobotMap.DriveTrain.MIN_STRAIGHT_POWER, 5.0, true));
 					break;
 			
@@ -340,8 +344,8 @@ public class AutonChooser {
 					
 				default:
 					addSequential(new DriveDistance(
-							factor * RobotMap.Defenses.DEFENSE_DISTANCE, 
-							factor * RobotMap.Defenses.TO_DEFENSE_SPEED));
+							factor * AutoMap.DEFENSE_DISTANCE, 
+							factor * AutoMap.TO_DEFENSE_SPEED));
 					return;
 			}
 		}

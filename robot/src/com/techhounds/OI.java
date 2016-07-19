@@ -8,29 +8,28 @@ import com.techhounds.commands.SetEndGame;
 import com.techhounds.commands.SetFlashlight;
 import com.techhounds.commands.SpeedTest;
 import com.techhounds.commands.UpdateController;
-import com.techhounds.commands._experimental.RecordProfile;
-import com.techhounds.commands.angler.SetStateDown;
-import com.techhounds.commands.angler.SetStateUp;
+import com.techhounds.commands.angler.SetAnglerState;
 import com.techhounds.commands.auton.RetrieveAuton;
-import com.techhounds.commands.auton.RotateUsingVision;
+import com.techhounds.commands.climber.SetClimberPTO;
 import com.techhounds.commands.collector.SetCollectorPower;
 import com.techhounds.commands.drive.DriveDistanceStraight;
 import com.techhounds.commands.drive.LockWinch;
 import com.techhounds.commands.drive.RunWinch;
 import com.techhounds.commands.drive.ToggleDriveDirection;
-import com.techhounds.commands.drive_auton.RunControlLoop;
-import com.techhounds.commands.drive_auton.WriteControlLoopHeading;
+import com.techhounds.commands.drive_profile.RunControlLoop;
+import com.techhounds.commands.drive_profile.WriteControlLoopHeading;
 import com.techhounds.commands.gyro.RotateUsingGyro;
 import com.techhounds.commands.gyro.SaveCurrentAngle;
-import com.techhounds.commands.servos.SetWinchEnable;
 import com.techhounds.commands.shooter.Fire;
 import com.techhounds.commands.shooter.PreFire;
 import com.techhounds.commands.shooter.SetShooterPower;
 import com.techhounds.commands.shooter.StopFire;
 import com.techhounds.commands.shooter.ToggleAlignVision;
+import com.techhounds.commands.vision.RotateUsingVision;
 import com.techhounds.lib.hid.ControllerMap;
 import com.techhounds.lib.hid.ControllerMap.Direction;
 import com.techhounds.lib.hid.DPadButton;
+import com.techhounds.lib.util.HoundMath;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -44,32 +43,32 @@ public class OI {
 	private SendableChooser driverChooser, operatorChooser;
 
 	// DRIVER AND OPERATOR CONTROLS
-	final int collector_IN = 				ControllerMap.Key.RT;
-	final int collector_OUT = 				ControllerMap.Key.RB;
-	final int collectorAngler_UP = 			ControllerMap.Key.Y;
-	final int collectorAngler_DOWN = 		ControllerMap.Key.A;
+	final int collector_IN = 				ControllerMap.Key.RT,
+		collector_OUT = 					ControllerMap.Key.RB,
+		collectorAngler_UP = 				ControllerMap.Key.Y,
+		collectorAngler_DOWN = 				ControllerMap.Key.A,
 	
-	final int shooter_START = 				ControllerMap.Key.X;
-	final int shooter_STOP = 				DPadButton.Direction.LEFT;
-	final int shooter_START_ALT = 			DPadButton.Direction.UP;
-	final int shooter_FIRE = 				ControllerMap.Key.B;
-	final int shooter_EMERGENCY_RELEASE = 	DPadButton.Direction.RIGHT;
+		shooter_START = 					ControllerMap.Key.X,
+		shooter_STOP = 						DPadButton.Direction.LEFT,
+		shooter_START_ALT = 				DPadButton.Direction.UP,
+		shooter_FIRE = 						ControllerMap.Key.B,
+		shooter_EMERGENCY_RELEASE = 		DPadButton.Direction.RIGHT,
 	
-	final int flashlight_TOGGLE = 			DPadButton.Direction.DOWN;
-	final int drive_DIRECTION_TOGGLE = 		ControllerMap.Key.START;
+		flashlight_TOGGLE = 				DPadButton.Direction.DOWN,
+		drive_DIRECTION_TOGGLE =	 		ControllerMap.Key.START,
 	
-	final int vision_SINGLE_ALIGN = 		ControllerMap.Key.LT;
-	final int vision_CONT_ALIGN = 			ControllerMap.Key.LB;
-	
-	final int toggleGameMode = ControllerMap.Key.BACK;
-	final int normalGameMode = DPadButton.Direction.RIGHT;
+		vision_SINGLE_ALIGN =		 		ControllerMap.Key.LT,
+		vision_CONT_ALIGN = 				ControllerMap.Key.LB,
 
-	final int winch_RUN_UP = 				ControllerMap.Key.Y;
-	final int winch_RUN_DOWN = 				ControllerMap.Key.A;
-	final int winch_LOCK = 					ControllerMap.Key.LT;
-	final int winch_ENABLE = 				ControllerMap.Key.X;
-	final int winch_DISABLE =				ControllerMap.Key.RB;
-	final int winch_UNLOCK = 				ControllerMap.Key.LB;
+		gameMode_TOGGLE =		 			ControllerMap.Key.BACK,
+		gameMode_NORMAL = 					DPadButton.Direction.RIGHT,
+		
+		winch_RUN_UP = 						ControllerMap.Key.Y,
+		winch_RUN_DOWN = 					ControllerMap.Key.A,
+		winch_LOCK = 						ControllerMap.Key.LT,
+		winch_ENABLE = 						ControllerMap.Key.X,
+		winch_DISABLE =						ControllerMap.Key.RB,
+		winch_UNLOCK = 						ControllerMap.Key.LB;
 
 	private OI() {
 
@@ -79,9 +78,9 @@ public class OI {
 		SmartDashboard.putData("Driver Controller Chooser", driverChooser);
 		SmartDashboard.putData("Operator Controller Chooser", operatorChooser);
 
-		driver = new ControllerMap(new Joystick(RobotMap.OI_Constants.DRIVER_PORT),
+		driver = new ControllerMap(new Joystick(RobotMap.JoystickPort.DRIVER),
 				(ControllerMap.Type) driverChooser.getSelected());
-		operator = new ControllerMap(new Joystick(RobotMap.OI_Constants.OPERATOR_PORT),
+		operator = new ControllerMap(new Joystick(RobotMap.JoystickPort.OPERATOR),
 				(ControllerMap.Type) operatorChooser.getSelected());
 
 		setup();
@@ -135,10 +134,10 @@ public class OI {
 			.whenReleased(new SetCollectorPower());
 
 		controller.getButton(collectorAngler_UP)
-			.whenPressed(new SetStateUp());
+			.whenPressed(new SetAnglerState(true));
 
 		controller.getButton(collectorAngler_DOWN)
-			.whenPressed(new SetStateDown());
+			.whenPressed(new SetAnglerState(false));
 		
 		controller.getButton(shooter_START)
 			.whenPressed(new PreFire(72.7));
@@ -187,10 +186,10 @@ public class OI {
 				.whileHeld(new RunWinch("Winch Up Power", .5));
 		
 		controller.getButton(winch_ENABLE)
-				.whenPressed(new SetWinchEnable(!RobotMap.Servo.WINCH_ENABLE_IS_UP_DEFAULT));
+				.whenPressed(new SetClimberPTO(!RobotMap.Servo.WINCH_ENABLE_IS_UP_DEFAULT));
 		
 		controller.getButton(winch_DISABLE)
-				.whenPressed(new SetWinchEnable(RobotMap.Servo.WINCH_ENABLE_IS_UP_DEFAULT));
+				.whenPressed(new SetClimberPTO(RobotMap.Servo.WINCH_ENABLE_IS_UP_DEFAULT));
 		
 		controller.getButton(winch_RUN_DOWN)
 				.whileHeld(new RunWinch("Winch Down Power", -.5));
@@ -201,7 +200,7 @@ public class OI {
 		controller.getButton(winch_UNLOCK)
 				.whenPressed(new LockWinch(false));
 		
-		controller.getButton(normalGameMode)
+		controller.getButton(gameMode_NORMAL)
 				.whenPressed(new SetEndGame(false));
 	}
 
@@ -219,19 +218,16 @@ public class OI {
 			SmartDashboard.putData("Save Angle", new SaveCurrentAngle());
 			SmartDashboard.putData("Drive Distance Straight", new DriveDistanceStraight(1000, 0.5, 0.2, null, true));
 	
-			SmartDashboard.putData("Update The Controllers", new UpdateController());
+			SmartDashboard.putData("Reload Trajectories", new LoadTrajectories());
+			SmartDashboard.putData("Speed Test", new SpeedTest());
 			
+			SmartDashboard.putData("LowBar Two Ball Back", new RunControlLoop("LowBarTwoBall-Back"));
+			SmartDashboard.putData("LowBar TWo Ball Cross", new RunControlLoop("LowBarTwoBall-Cross"));
+			SmartDashboard.putData("LowBar One Ball Cross", new RunControlLoop("LowBarOneBall"));
+			SmartDashboard.putData("Write Heading", new WriteControlLoopHeading());
 		}
-		
-		SmartDashboard.putData("Record Profile", new RecordProfile());
-		
-		SmartDashboard.putData("Reload Trajectories", new LoadTrajectories());
-		SmartDashboard.putData("Speed Test", new SpeedTest());
-		
-		SmartDashboard.putData("LowBar Two Ball Back", new RunControlLoop("LowBarTwoBall-Back"));
-		SmartDashboard.putData("LowBar TWo Ball Cross", new RunControlLoop("LowBarTwoBall-Cross"));
-		SmartDashboard.putData("LowBar One Ball Cross", new RunControlLoop("LowBarOneBall"));
-		SmartDashboard.putData("Write Heading", new WriteControlLoopHeading());
+
+		SmartDashboard.putData("Update The Controllers", new UpdateController());
 	}
 
 	/**
@@ -296,18 +292,18 @@ public class OI {
 	}
 
 	public double getRightForward() {
-		return Robot.rangeCheck(currentDriver.getAxis(Direction.LEFT_VERTICAL) - getSteer());
+		return HoundMath.checkRange(currentDriver.getAxis(Direction.LEFT_VERTICAL) - getSteer());
 	}
 
 	public double getLeftForward() {
-		return Robot.rangeCheck(currentDriver.getAxis(Direction.LEFT_VERTICAL) + getSteer());
+		return HoundMath.checkRange(currentDriver.getAxis(Direction.LEFT_VERTICAL) + getSteer());
 	}
 
 	public double getRightBackward() {
-		return Robot.rangeCheck(-currentDriver.getAxis(Direction.LEFT_VERTICAL) - getSteer());
+		return HoundMath.checkRange(-currentDriver.getAxis(Direction.LEFT_VERTICAL) - getSteer());
 	}
 
 	public double getLeftBackward() {
-		return Robot.rangeCheck(-currentDriver.getAxis(Direction.LEFT_VERTICAL) + getSteer());
+		return HoundMath.checkRange(-currentDriver.getAxis(Direction.LEFT_VERTICAL) + getSteer());
 	}
 }

@@ -1,6 +1,6 @@
 package com.techhounds.commands.shooter;
 
-import com.techhounds.commands.auton.RotateUsingVisionContinuous;
+import com.techhounds.commands.vision.RotateUsingVisionContinuous;
 
 import edu.wpi.first.wpilibj.command.Command;
 
