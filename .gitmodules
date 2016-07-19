@@ -1,0 +1,6 @@
+[submodule "lib-robot"]
+	path = lib-robot
+	url = https://github.com/frc868/lib-robot
+[submodule "lib-trajectory"]
+	path = lib-trajectory
+	url = https://github.com/frc868/lib-trajectory
