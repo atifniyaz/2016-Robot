@@ -1,5 +1,5 @@
 /.metadata
-/robot-project/bin/
-/robot-project/build/
-/robot-project/dist/
-/robot-project/sysProps.xml
+/robot/bin/
+/robot/build/
+/robot/dist/
+/robot/sysProps.xml
