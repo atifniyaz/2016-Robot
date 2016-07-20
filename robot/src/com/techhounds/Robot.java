@@ -6,6 +6,7 @@ import com.techhounds.commands.UpdateSmartDashboard;
 import com.techhounds.commands.auton.AutonChooser;
 import com.techhounds.commands.auton.RetrieveAuton;
 import com.techhounds.commands.climber.SetClimberLock;
+import com.techhounds.lib.trajectory.TrajectoryLoader;
 import com.techhounds.subsystems.AnglerSubsystem;
 import com.techhounds.subsystems.BeamBreakSubsystem;
 import com.techhounds.subsystems.CollectorSubsystem;

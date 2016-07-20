@@ -1,6 +1,6 @@
 package com.techhounds.commands.drive_profile;
 
-import com.techhounds.TrajectoryLoader;
+import com.techhounds.lib.trajectory.TrajectoryLoader;
 import com.techhounds.lib.trajectory.TrajectoryPair;
 import com.techhounds.subsystems.controllers.MotionControlLoop;
 
@@ -10,13 +10,9 @@ public class StartControlLoop extends Command {
 
 	private TrajectoryPair trajectory;
 	private String index;
-	private Boolean useRecorded;
+	
 	public StartControlLoop(TrajectoryPair trajectory) {
 		this.trajectory = trajectory;
-	}
-	
-	public StartControlLoop() {
-		useRecorded = true;
 	}
 	
 	public StartControlLoop(String index) {
@@ -26,13 +22,9 @@ public class StartControlLoop extends Command {
 	@Override
 	protected void initialize() {
 		
-		if(useRecorded != null) {
-			TrajectoryPair trajectory = TrajectoryLoader.recorded;
-			MotionControlLoop.getInstance().useHeading(false);
-			MotionControlLoop.getInstance().setTrajectory(trajectory.getLeft(), trajectory.getRight());
-		} else if(trajectory == null) {
+		if(trajectory == null) {
 			MotionControlLoop.getInstance().useHeading(true);
-			TrajectoryPair trajectory = TrajectoryLoader.loadedTrajectories.get(index);
+			TrajectoryPair trajectory = TrajectoryLoader.getInstance().getTrajectory(index);
 			MotionControlLoop.getInstance().setTrajectory(trajectory.getLeft(), trajectory.getRight());
 		} else {
 			MotionControlLoop.getInstance().useHeading(true);

@@ -6,14 +6,6 @@ import com.techhounds.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class RunControlLoop extends CommandGroup {
-
-	public RunControlLoop() {
-		requires(DriveSubsystem.getInstance());
-		addSequential(new WriteControlLoopHeading());
-		addSequential(new StartControlLoop());
-		addSequential(new FinishedControlLoop());
-		addSequential(new StopControlLoop());
-	}
 	
 	public RunControlLoop(TrajectoryPair trajectory) {
 		requires(DriveSubsystem.getInstance());

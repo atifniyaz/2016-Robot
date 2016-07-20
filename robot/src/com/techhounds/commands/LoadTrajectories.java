@@ -1,6 +1,6 @@
 package com.techhounds.commands;
 
-import com.techhounds.TrajectoryLoader;
+import com.techhounds.lib.trajectory.TrajectoryLoader;
 
 import edu.wpi.first.wpilibj.command.Command;
 
