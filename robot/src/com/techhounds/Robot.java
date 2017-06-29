@@ -30,6 +30,11 @@ public class Robot extends IterativeRobot {
 	
 	public static boolean oneControllerMode = false;
 	public static boolean isDebugState = false;
+	public static boolean isManuallyDisabled = false;
+	
+	public boolean isDisabled(){
+		return super.isDisabled() || isManuallyDisabled;
+	}
 	
     public void robotInit() {
     	

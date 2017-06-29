@@ -60,6 +60,9 @@ public class OI {
 		vision_SINGLE_ALIGN =		 		ControllerMap.Key.LT,
 		vision_CONT_ALIGN = 				ControllerMap.Key.LB,
 
+		manualDisable_1	=					ControllerMap.Key.LB,
+		manualDisable_2 = 					ControllerMap.Key.LT,
+
 		gameMode_TOGGLE =		 			ControllerMap.Key.BACK,
 		gameMode_NORMAL = 					DPadButton.Direction.RIGHT,
 		
@@ -161,7 +164,13 @@ public class OI {
 			controller.getButton(drive_DIRECTION_TOGGLE)
 				.whenPressed(new ToggleDriveDirection());
 		}
-
+		
+		controller.getButton(manualDisable_1)
+				.whenPressed(Robot.isManuallyDisabled = !Robot.isManuallyDisabled);
+		
+		controller.getButton(manualDisable_2)
+				.whenPressed(Robot.isManuallyDisabled = true);
+		
 		controller.getButton(vision_SINGLE_ALIGN)
 				.whenPressed(new RotateUsingVision(4));
 
