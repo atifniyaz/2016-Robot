@@ -51,9 +51,9 @@ public class DriveWithGamepad extends PeriodicCommand {
     		// If Driver Turn is less than .25, then we will do magic ;)
     		// Driver has override over Operator for Turning
     		// 65% power for turning
-    		drive.setPower(OI.getInstance().getRightBackward(), OI.getInstance().getLeftBackward());
+    		drive.setPower(.5*OI.getInstance().getRightBackward(), OI.getInstance().getLeftBackward());
     	}else{
-    		drive.setPower(OI.getInstance().getRightForward(), OI.getInstance().getLeftForward());	
+    		drive.setPower(.5*OI.getInstance().getRightForward(), OI.getInstance().getLeftForward());	
     	}
 		
     	toFileLeft.println((Timer.getFPGATimestamp() - initTime) + "," + drive.getLeftDistance() + "," + drive.getLeftSpeed() + "," + drive.getRightDistance() + "," + drive.getRightSpeed());
